@@ -1,9 +1,12 @@
 # Bukhari first public-working release candidate
 
-The approved task is preparation for review only. Do not publish, dispatch the
-publishing workflow, create tags/releases/drafts, upload assets or put real book
-text in a public branch. Publishing remains disabled in the distribution config;
-no release approval exists. Existing v1 metadata deny rules are unchanged.
+The original preparation-only stage is complete. The owner has now selected
+CC BY 4.0 for original English and structure, accepted the disclosed source risks
+and explicitly authorized the first human-unreviewed working release. See the
+[scoped release decision](decisions/bukhari-working-release-1.md) and
+[content license](../LICENSE-CONTENT.md). Only the allowlisted public proposal and
+its approved package cross the boundary; private stage evidence stays excluded.
+Existing v1 metadata deny rules are unchanged.
 
 ## Contract and coverage
 
@@ -61,20 +64,19 @@ and compare ZIP bytes to establish reproducibility. Inspect the generated reader
 and machine-readable records. See [the reusable workflow](distribution-workflow.md)
 for final-main rebinding, owner review and future publication gates.
 
-## Licensing decision held for review
+## Approved licensing and publication
 
-The candidate deliberately records `rights.status: pending` and
-`originalContentLicense: null`, yielding `publicationEligible: false`.
-Commercial use remains the owner's objective. A proposed option is CC BY 4.0 for
-original English and project-authored structure/notes; no such grant is made now.
-Arabic source treatment needs an explicit external-distribution rationale and
-accepted residual risks. OpenITI's CC BY-NC-SA corpus license is disclosed, not
-represented as commercial permission or silently replaced by a permissive grant.
-The existing source decision authorizes private processing/admission only.
-Preparation neither settles third-party rights nor grants software licensing.
+The earlier private candidate remains immutable with pending rights and no license.
+The separately approved public proposal records `rights.status: approved` and
+`originalContentLicense: CC-BY-4.0`, preserving source exclusions, upstream
+attribution and accepted residual risks. The complete scoped rationale is in the
+[owner-approved decision](decisions/bukhari-working-release-1.md). This licenses
+our original English and project-authored structure/notes only; it makes no
+commercial grant from OpenITI and does not constitute legal clearance. Software
+licensing is separate.
 
-Review should decide the original-content license and source treatment, then
-approve the exact final archive and public-content boundary. Those are genuine
-publication decisions. Human scholarly review can remain ongoing if an adopted
-working-release policy explicitly permits it. No public release is authorized
-by merely merging this tooling.
+The release has 110 human-unreviewed records and no human scholarly approval.
+Publish only via the reviewed proposal/schema approval, successful checks,
+exact-final-main archive checksum, protected release environment, immutable tag
+and manual workflow. No automatic push or merge publishes a release. Private
+source/translation/audit artifacts remain excluded.

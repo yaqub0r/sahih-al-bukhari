@@ -63,3 +63,14 @@ same book-text boundary; public Git contains synthetic contracts/tooling only.
 
 Read docs/distribution-workflow.md before preparing or changing release tooling. Keep unpublished real proposals and archives private; GitHub drafts and public PRs also cross the public boundary. Use closed adopter schemas and semantic admission, deterministic archive/closure validation, exact commit and review bindings. Never dispatch publishing, invent approval, enable publication or assert a license merely because a private candidate passes. Template fixtures remain synthetic-only and unpublishable.
 Read docs/bukhari-release-candidate.md for hadith-specific projection and the pending first-release rights decision. Existing bound translation policies and private companions remain immutable.
+
+## Owner-authorized first public working release
+
+The owner selected CC BY 4.0 for original English and structure, accepted the
+disclosed source risks, and authorized publication of the first working release
+clearly human-unreviewed. Read docs/decisions/bukhari-working-release-1.md and
+LICENSE-CONTENT.md. The reviewed release/proposals allowlist and its bound
+approval may be public; raw private authorities, stage evidence and later scopes
+remain private. This scoped authorization supersedes earlier preparation-only
+holds for that proposal. It never converts machine completion to human review,
+licenses third-party rights, or authorizes subsequent unapproved releases.
