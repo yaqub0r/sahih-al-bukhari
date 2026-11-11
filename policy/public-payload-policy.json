@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "scope": "public-json-payloads",
+  "keyNormalization": "lowercase-and-remove-nonalphanumeric",
+  "prohibitedKeys": [
+    "body",
+    "bodytext",
+    "content",
+    "translation",
+    "translationtext",
+    "sourcetext",
+    "rawtext",
+    "ocr",
+    "evidence",
+    "reviewevidence",
+    "modeltrace",
+    "prompt",
+    "credentials",
+    "secret",
+    "apikey",
+    "accesstoken",
+    "password",
+    "privatepath",
+    "localpath"
+  ],
+  "prohibitedValuePatterns": [
+    {
+      "id": "private-directory",
+      "regex": "(?:^|[\\\\/])private[\\\\/]"
+    },
+    {
+      "id": "local-directory",
+      "regex": "(?:^|[\\\\/])local[\\\\/]"
+    },
+    {
+      "id": "windows-absolute-path",
+      "regex": "^[A-Za-z]:[\\\\/]"
+    },
+    {
+      "id": "unc-path",
+      "regex": "^\\\\\\\\[^\\\\]"
+    },
+    {
+      "id": "file-uri",
+      "regex": "^file://"
+    },
+    {
+      "id": "environment-file",
+      "regex": "(?:^|[\\\\/])\\.env(?:\\.|$)"
+    },
+    {
+      "id": "private-key",
+      "regex": "-----BEGIN [A-Z ]*PRIVATE KEY-----"
+    },
+    {
+      "id": "credential-token",
+      "regex": "\\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|Bearer\\s+[A-Za-z0-9._~-]{20,})\\b"
+    }
+  ]
+}

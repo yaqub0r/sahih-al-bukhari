@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "records": [
+    {
+      "recordId": "syn-record-001",
+      "revision": 1,
+      "completeness": {
+        "sourceLinkage": "complete",
+        "metadata": "partial",
+        "correctionState": "current"
+      },
+      "review": {
+        "status": "unreviewed",
+        "confidence": "unknown",
+        "reviewerId": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "recordId": "syn-record-002",
+      "revision": 2,
+      "completeness": {
+        "sourceLinkage": "complete",
+        "metadata": "complete",
+        "correctionState": "corrected"
+      },
+      "review": {
+        "status": "human-reviewed",
+        "confidence": "high",
+        "reviewerId": "syn-reviewer",
+        "reviewedAt": "2026-01-02T00:00:00Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectionId": "syn-projection-0002",
+  "releaseId": "syn-release-0002",
+  "releaseSequence": 2,
+  "contractMajor": 1,
+  "generatedAt": "2026-01-03T00:00:00Z",
+  "records": [
+    {
+      "recordId": "syn-record-001",
+      "revision": 1,
+      "classification": "synthetic-public-metadata",
+      "sourceIds": [
+        "syn-source-001"
+      ],
+      "reviewStateRef": "syn-record-001.r1",
+      "correctionRef": null,
+      "supersedesRevision": null
+    },
+    {
+      "recordId": "syn-record-002",
+      "revision": 2,
+      "classification": "synthetic-public-metadata",
+      "sourceIds": [
+        "syn-source-001"
+      ],
+      "reviewStateRef": "syn-record-002.r2",
+      "correctionRef": "syn-correction-001",
+      "supersedesRevision": 1
+    }
+  ]
+}

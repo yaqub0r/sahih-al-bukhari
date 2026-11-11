@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/book-repository-template/contracts/v1/correction-supersession.schema.json",
+  "title": "Correction and supersession register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "corrections"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "corrections": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/correction"
+      }
+    }
+  },
+  "$defs": {
+    "correction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correctionId",
+        "subjectRecordId",
+        "priorRevision",
+        "replacementRevision",
+        "status",
+        "reasonCode",
+        "correctedBy",
+        "correctedAt",
+        "supersedes"
+      ],
+      "properties": {
+        "correctionId": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+        },
+        "subjectRecordId": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+        },
+        "priorRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "replacementRevision": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "status": {
+          "const": "recorded"
+        },
+        "reasonCode": {
+          "enum": [
+            "factual",
+            "provenance",
+            "classification",
+            "rights",
+            "metadata",
+            "withdrawal"
+          ]
+        },
+        "correctedBy": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+        },
+        "correctedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "supersedes": {
+          "$ref": "#/$defs/supersedes"
+        }
+      }
+    },
+    "supersedes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "releaseId",
+        "recordRevision"
+      ],
+      "properties": {
+        "releaseId": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"
+        },
+        "recordRevision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

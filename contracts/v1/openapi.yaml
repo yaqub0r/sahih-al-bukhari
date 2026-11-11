@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: Scholarly Book Consumer Release API
+  version: 1.0.0
+  description: >-
+    Read-only retrieval of versioned public projections. Implementations expose
+    immutable release artifacts only; consumers never receive database access,
+    authoring storage, credentials, or private project objects.
+paths:
+  /v1/releases/{releaseId}/projection:
+    get:
+      operationId: getReleaseProjection
+      summary: Retrieve one projection pinned to an immutable release
+      parameters:
+        - $ref: '#/components/parameters/ReleaseId'
+        - $ref: '#/components/parameters/ContractMajor'
+      responses:
+        '200':
+          description: Projection whose releaseId equals the requested releaseId
+          headers:
+            ETag:
+              description: Strong validator for the immutable projection representation
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: './consumer-projection.schema.json'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/IncompatibleContract'
+  /v1/release-pointer:
+    get:
+      operationId: getReleasePointer
+      summary: Retrieve the auditable active release pointer
+      parameters:
+        - $ref: '#/components/parameters/ContractMajor'
+      responses:
+        '200':
+          description: Current pointer; consumers still pin the returned activeReleaseId
+          content:
+            application/json:
+              schema:
+                $ref: './release-pointer.schema.json'
+components:
+  parameters:
+    ReleaseId:
+      name: releaseId
+      in: path
+      required: true
+      description: Immutable release identity to pin
+      schema:
+        type: string
+        pattern: '^[a-z0-9][a-z0-9._-]{2,63}$'
+    ContractMajor:
+      name: X-Contract-Major
+      in: header
+      required: true
+      description: Consumer-supported contract major; version 1 requires 1
+      schema:
+        type: integer
+        const: 1
+  responses:
+    NotFound:
+      description: The pinned release does not exist or is unavailable
+    IncompatibleContract:
+      description: The consumer contract-major pin is unsupported

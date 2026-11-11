@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "replace-me",
+  "identityRegistry": [
+    {
+      "id": "replace-producer",
+      "roles": [
+        "producer"
+      ]
+    },
+    {
+      "id": "replace-reviewer",
+      "roles": [
+        "reviewer"
+      ]
+    },
+    {
+      "id": "replace-promoter",
+      "roles": [
+        "promoter"
+      ]
+    }
+  ],
+  "classificationPolicy": {
+    "publicValues": [
+      "replace-public-class"
+    ],
+    "nonPublicValues": [
+      "replace-restricted-class",
+      "replace-private-class"
+    ]
+  },
+  "releasePolicy": {
+    "allowPublicWorkingRelease": true,
+    "requireHumanReviewForRelease": false,
+    "canonicalPromotionMode": "optional"
+  }
+}

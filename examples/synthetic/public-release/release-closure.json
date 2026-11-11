@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "releaseId": "syn-release-0002",
+  "releaseSequence": 2,
+  "previousReleaseId": "syn-release-0001",
+  "createdAt": "2026-01-03T00:00:00Z",
+  "producerId": "syn-producer",
+  "states": {
+    "publicRelease": "published",
+    "canonicalPromotion": "candidate",
+    "promotedBy": null,
+    "promotedAt": null
+  },
+  "consumerCompatibility": {
+    "contractMajor": 1,
+    "minimumConsumerMajor": 1,
+    "maximumConsumerMajor": 1
+  },
+  "artifacts": [
+    {
+      "path": "source-provenance.json",
+      "mediaType": "application/json",
+      "schemaVersion": "1.0.0",
+      "sha256": "520316eedfd54a09f816198111bd35662165fb03c83c47ab7b2c015ad948084f",
+      "canonicalBytes": 489
+    },
+    {
+      "path": "record-review-state.json",
+      "mediaType": "application/json",
+      "schemaVersion": "1.0.0",
+      "sha256": "b81f43097e7a72ac01aef6c7d272caf68e5e0028f534ea3108c5478211566e85",
+      "canonicalBytes": 525
+    },
+    {
+      "path": "correction-supersession.json",
+      "mediaType": "application/json",
+      "schemaVersion": "1.0.0",
+      "sha256": "fc8c68308cc100074c072e2256f4c94b67891e95fbe35e2683597026c96dd63d",
+      "canonicalBytes": 331
+    },
+    {
+      "path": "consumer-projection.json",
+      "mediaType": "application/json",
+      "schemaVersion": "1.0.0",
+      "sha256": "f07da19d068d5d5180f28b49fdcd2a0eb39f23e93ad57cd6c1cdcbff9c4137ab",
+      "canonicalBytes": 599
+    }
+  ]
+}

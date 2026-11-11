@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0.0",
+  "corrections": [
+    {
+      "correctionId": "syn-correction-001",
+      "subjectRecordId": "syn-record-002",
+      "priorRevision": 1,
+      "replacementRevision": 2,
+      "status": "recorded",
+      "reasonCode": "metadata",
+      "correctedBy": "syn-reviewer",
+      "correctedAt": "2026-01-02T00:00:00Z",
+      "supersedes": {
+        "releaseId": "syn-release-0001",
+        "recordRevision": 1
+      }
+    }
+  ]
+}

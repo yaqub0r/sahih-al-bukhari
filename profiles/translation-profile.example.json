@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "workId": "replace-me-book",
+  "repository": "replace-me/replace-me-book",
+  "intendedUse": "commercial",
+  "source": {
+    "id": "replace-me-source",
+    "edition": "Replace with exact approved edition and authority identity",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "bytes": 1,
+    "rightsBasis": "UNRESOLVED: replace with reviewed permission evidence for exact intended use",
+    "attribution": "Replace with required attribution",
+    "publicationAllowed": false,
+    "translationAllowed": false,
+    "processingAllowed": false,
+    "commercialAllowed": false
+  },
+  "witnesses": [],
+  "englishComparison": {
+    "enabled": false,
+    "witnessId": null,
+    "reason": "No English witness has been qualified for processing yet"
+  },
+  "methods": {},
+  "policyFiles": {
+    "docs/translation/quality-workflow.md": "c14b3ce2925fbc800ffda1bcb0433fa8bbdda07d698291cd4a384240b49f744b",
+    "docs/translation/agent-workflow.md": "f280c6edb08f5329499fd7e97fbeb6af1a3f1c70ce5abbb87228b8a8e2b1bb20",
+    "docs/translation/stage-contracts.md": "87cbef8b5c992d1e7d66872312efcdbed41e088f3e7ab47c945395644a7c0828",
+    "scripts/translation_workflow.py": "ad3f106a501c3e66e5bf1d628d1eacacd30069ebb09c486f43a12b8401e36e90"
+  },
+  "limitations": [
+    "UNCONFIGURED: not eligible for translation, processing, or publication",
+    "Record same-edition facsimile verification or disclose its absence",
+    "Supply the book importer and verify supported host metadata before production"
+  ],
+  "nameLedger": {
+    "path": "profiles/name-ledger.example.json",
+    "sha256": "cee93d4067d6b27976d8a7a393e59f6a72cea83952a262eeca6be2ff4798966f"
+  },
+  "coordinatorMethod": {}
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0.0",
+  "pointerId": "public-consumer",
+  "activeReleaseId": "syn-release-0002",
+  "latestReleaseId": "syn-release-0002",
+  "reasonCode": "normal-advance",
+  "rollbackFromReleaseId": null,
+  "updatedAt": "2026-01-03T00:05:00Z",
+  "updatedBy": "syn-promoter"
+}

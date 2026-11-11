@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "entries": [
+    {
+      "sourceId": "syn-source-001",
+      "classification": "synthetic-public-metadata",
+      "sourceType": "synthetic-placeholder",
+      "locator": {
+        "scheme": "uri",
+        "value": "fixture://source/syn-source-001"
+      },
+      "fingerprint": {
+        "algorithm": "sha256",
+        "value": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "rights": {
+        "registryEntryId": "syn-rights-001",
+        "status": "approved",
+        "permittedScopes": [
+          "metadata"
+        ],
+        "decidedBy": "syn-reviewer",
+        "decidedAt": "2026-01-01T00:00:00Z"
+      }
+    }
+  ]
+}

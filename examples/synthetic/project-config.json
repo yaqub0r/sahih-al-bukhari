@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "synthetic-book-project",
+  "identityRegistry": [
+    {
+      "id": "syn-producer",
+      "roles": [
+        "producer"
+      ]
+    },
+    {
+      "id": "syn-reviewer",
+      "roles": [
+        "reviewer"
+      ]
+    },
+    {
+      "id": "syn-promoter",
+      "roles": [
+        "promoter"
+      ]
+    }
+  ],
+  "classificationPolicy": {
+    "publicValues": [
+      "synthetic-public-metadata"
+    ],
+    "nonPublicValues": [
+      "synthetic-restricted",
+      "synthetic-private"
+    ]
+  },
+  "releasePolicy": {
+    "allowPublicWorkingRelease": true,
+    "requireHumanReviewForRelease": false,
+    "canonicalPromotionMode": "optional"
+  }
+}

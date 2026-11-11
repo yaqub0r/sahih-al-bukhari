@@ -1,0 +1,27 @@
+name: contracts-and-policy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contracts-and-policy-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts-and-policy:
+    name: contracts-and-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate contracts and public policy
+        run: python3 scripts/validate_repository.py
+      - name: Run dependency-free tests
+        run: python3 -m unittest discover -s tests -v
