@@ -37,3 +37,9 @@ python -m unittest discover -s tests -v
 ```
 
 The original template is [book-repository-template](https://github.com/yaqub0r/book-repository-template).
+
+
+Hadith records also require a [source-bound ordered isnad companion](docs/translation/hadith-structure.md).
+It separates narration paths from matn while retaining exact Arabic transmission
+wording, branches, missing links and uncertainty. Translation-only completion is
+insufficient for an adopted hadith scope. Existing v1 metadata contracts are unchanged.
