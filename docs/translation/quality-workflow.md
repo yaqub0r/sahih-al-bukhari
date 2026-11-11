@@ -67,7 +67,10 @@ permission to omit a heading.
    Record bounded corrections and reasons. Do not silently normalize uncertainty.
 7. Reconcile durable name IDs and exact bilingual mention spans against the final
    structured English. Identity merge/split decisions require an append-only
-   project ledger; identical spelling alone does not establish identity.
+   project ledger; identical spelling alone does not establish identity. Version 1
+   requires one English realization per identity. Version 2 preserves approved
+   variants through exact registered Arabic-to-English occurrence mappings;
+   unregistered variants require a reviewed ledger/profile revision.
 8. Independently audit final source alignment, fidelity, formula semantics,
    names, and public-output eligibility. Preserve genuinely human-only findings
    with independently written public summaries; exhaust agent-actionable defects.

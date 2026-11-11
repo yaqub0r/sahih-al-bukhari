@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "sahih-al-bukhari",
+  "identityRegistry": [
+    {
+      "id": "bukhari-codex-producer",
+      "roles": [
+        "producer"
+      ]
+    },
+    {
+      "id": "bukhari-owner-reviewer",
+      "roles": [
+        "reviewer",
+        "promoter"
+      ]
+    }
+  ],
+  "classificationPolicy": {
+    "publicValues": [
+      "public"
+    ],
+    "nonPublicValues": [
+      "restricted",
+      "private"
+    ]
+  },
+  "releasePolicy": {
+    "allowPublicWorkingRelease": false,
+    "requireHumanReviewForRelease": false,
+    "canonicalPromotionMode": "unused"
+  }
+}

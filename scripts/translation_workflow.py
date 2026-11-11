@@ -129,15 +129,28 @@ def load_profile(path):
     require(file_hash(ledger_path) == profile['nameLedger']['sha256'], 'name ledger drift')
     ledger = read(ledger_path)
     closed(ledger, ('version', 'identities', 'decisions'))
-    require(ledger['version'] == 1, 'unsupported name ledger')
+    require(type(ledger['version']) is int and ledger['version'] in (1, 2), 'unsupported name ledger')
     ids = []
     for name in ledger['identities']:
-        closed(name, ('id', 'english', 'arabicForms'))
+        closed(name, ('id', 'english', 'arabicForms', 'renderings') if ledger['version'] == 2
+               else ('id', 'english', 'arabicForms'))
         identifier(name['id'])
         text(name['english'])
         require(isinstance(name['arabicForms'], list) and bool(name['arabicForms']), 'name Arabic forms required')
         for form in name['arabicForms']:
             text(form)
+        if ledger['version'] == 2:
+            require(len(name['arabicForms']) == len(set(name['arabicForms'])), 'duplicate name Arabic form')
+            require(isinstance(name['renderings'], list) and bool(name['renderings']), 'name renderings required')
+            mapped = []
+            for rendering in name['renderings']:
+                closed(rendering, ('arabic', 'english'))
+                text(rendering['arabic'])
+                text(rendering['english'])
+                require(rendering['arabic'] in name['arabicForms'], 'unknown rendering Arabic form')
+                mapped.append(rendering['arabic'])
+            require(len(mapped) == len(set(mapped)), 'duplicate or conflicting name rendering')
+            require(set(mapped) == set(name['arabicForms']), 'missing name rendering')
         ids.append(name['id'])
     require(len(ids) == len(set(ids)), 'duplicate ledger identity')
     for decision in ledger['decisions']:
@@ -376,7 +389,8 @@ def validate_output(stage, output, packet, profile, previous):
         require(output['checkedUnitIds'] == unit_ids, 'name audit coverage missing')
         sources = {u['id']: u['arabic'] for u in packet['units']}
         targets = {u['id']: u['english'] for u in previous['adjudication']['units']}
-        ledger = {n['id']: n for n in read(safe_path(ROOT, profile['nameLedger']['path']))['identities']}
+        name_ledger = read(safe_path(ROOT, profile['nameLedger']['path']))
+        ledger = {n['id']: n for n in name_ledger['identities']}
         for name in output['names']:
             closed(name, ('nameId', 'unitId', 'start', 'end', 'targetStart', 'targetEnd', 'english'))
             identifier(name['nameId'])
@@ -387,9 +401,13 @@ def validate_output(stage, output, packet, profile, previous):
                         0 <= name[a] < name[b] <= len(value), 'invalid name span')
             require(targets[name['unitId']][name['targetStart']:name['targetEnd']] == name['english'],
                     'name does not match final English')
-            require(name['nameId'] in ledger and ledger[name['nameId']]['english'] == name['english'] and
-                    sources[name['unitId']][name['start']:name['end']] in ledger[name['nameId']]['arabicForms'],
-                    'name differs from registered project identity; review a new ledger revision')
+            require(name['nameId'] in ledger, 'unregistered project name identity')
+            identity = ledger[name['nameId']]
+            arabic = sources[name['unitId']][name['start']:name['end']]
+            registered = (arabic in identity['arabicForms'] and identity['english'] == name['english']
+                          if name_ledger['version'] == 1 else
+                          {'arabic': arabic, 'english': name['english']} in identity['renderings'])
+            require(registered, 'name differs from registered project identity; review a new ledger revision')
     elif stage == 'audit':
         closed(output, ('checkedUnitIds', 'checks', 'publicEligible', 'unresolved'))
         require(output['checkedUnitIds'] == unit_ids and output['checks'] == list(AUDIT_CHECKS),
@@ -405,7 +423,10 @@ def validate_output(stage, output, packet, profile, previous):
             require(finding['unitId'] == source_finding['unitId'], 'unresolved unit mismatch')
             text(finding['publicSummary'])
         names = previous['names']['names']
-        for name in names:
+        name_ledger = read(safe_path(ROOT, profile['nameLedger']['path']))
+        if name_ledger['version'] == 2:
+            validate_output('names', previous['names'], packet, profile, previous)
+        for name in names if name_ledger['version'] == 1 else []:
             require(all(n['english'] == name['english'] for n in names if n['nameId'] == name['nameId']),
                     'inconsistent durable name realization')
 

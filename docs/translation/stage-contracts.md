@@ -32,14 +32,20 @@ an old profile used by completed runs; use versioned profile filenames.
 ## Project name ledger
 
 `nameLedger` binds a repository-relative `path` and raw-file `sha256`.
-The ledger has `version: 1`, `identities`, and append-only `decisions`.
-Each identity is `{id, english, arabicForms}`. Each decision is
+The ledger has `version: 1` or `version: 2`, `identities`, and append-only `decisions`.
+Version 1 identities are `{id, english, arabicForms}` and require one English
+realization per identity. Version 2 adds `renderings: [{arabic, english}]`: exactly
+one registered rendering for every attested Arabic form, with no unknown forms,
+duplicate mappings, or extra fields. The canonical `english` and durable `id`
+identify the entity; each occurrence must use its exact registered bilingual pair.
+Approved variants preserve short forms and epithets without changing identity.
+Each decision is
 `{id, kind, fromIds, toIds, basis}`, where kind is merge, split, or correction.
 Keep historical IDs and decisions when revising; do not silently repurpose an ID.
 Before preparing a production scope, register its known name identities through
 a reviewed versioned ledger. A newly discovered identity or correction holds name
 reconciliation until a reviewed new ledger/profile/run revision exists. Every
-mention must match both an attested Arabic form and the canonical English.
+mention must match the version-specific registered Arabic/English mapping.
 This deliberately prevents disjoint runs from assigning incompatible meanings
 to the same durable ID. The starter ledger is empty and synthetic-only.
 
@@ -79,7 +85,8 @@ nonoverlapping `{start, end, referent}`). Each exclusion is `{location, reason}`
 - `names`: `{checkedUnitIds, names}`. Each mention is
   `{nameId, unitId, start, end, targetStart, targetEnd, english}`. Source spans
   identify observed Arabic names; target spans must equal `english`. Stable
-  name IDs must use one consistent English realization within this run.
+  name IDs use one consistent English realization in version 1; version 2 permits
+  only approved source-specific renderings for that identity.
 - `audit`: `{checkedUnitIds, checks, publicEligible, unresolved}`. Use the exact
   ordered `AUDIT_CHECKS` tuple. `publicEligible` must be true to submit.
   Every unresolved adjudication finding receives

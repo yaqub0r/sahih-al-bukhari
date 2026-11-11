@@ -242,6 +242,87 @@ class TranslationWorkflowTests(unittest.TestCase):
         with self.assertRaises(w.WorkflowError):
             w.load_profile(self.profile_path)
 
+    def variant_ledger(self, version=2):
+        identity = {'id': 'syn-person', 'english': 'SYNTHETIC',
+                    'arabicForms': ['SYNTHETIC', 'REPORT']}
+        if version == 2:
+            identity['renderings'] = [{'arabic': 'SYNTHETIC', 'english': 'SYNTHETIC'},
+                                      {'arabic': 'REPORT', 'english': 'REPORT'}]
+        return {'version': version, 'identities': [identity], 'decisions': []}
+
+    def install_name_ledger(self, ledger):
+        self.ledger.write_text(json.dumps(ledger), encoding='utf-8')
+        self.profile['nameLedger']['sha256'] = w.file_hash(self.ledger)
+        self.save_profile()
+        return w.load_profile(self.profile_path)
+
+    def variant_mentions(self):
+        return {'checkedUnitIds': self.ids, 'names': [
+            {'nameId': 'syn-person', 'unitId': 'syn-report', 'start': start, 'end': end,
+             'targetStart': start, 'targetEnd': end, 'english': english}
+            for start, end, english in [(0, 9, 'SYNTHETIC'), (12, 18, 'REPORT')]]}
+
+    def test_v2_registered_variants_preserve_identity_through_audit(self):
+        self.install_name_ledger(self.variant_ledger())
+        previous = copy.deepcopy(self.outputs)
+        previous['names'] = self.variant_mentions()
+        w.validate_output('names', previous['names'], self.packet, self.profile, previous)
+        w.validate_output('audit', self.outputs['audit'], self.packet, self.profile, previous)
+        for mutation in ('target', 'source', 'identity'):
+            with self.subTest(mutation=mutation):
+                bad = copy.deepcopy(previous)
+                mention = bad['names']['names'][1]
+                if mutation == 'target':
+                    bad['adjudication']['units'][1]['english'] = 'SYNTHETIC ۞ OTHER!'
+                    mention['english'] = 'OTHER!'
+                elif mutation == 'source':
+                    mention.update(start=10, end=11)
+                else:
+                    mention['nameId'] = 'syn-unknown'
+                with self.assertRaises(w.WorkflowError):
+                    w.validate_output('names', bad['names'], self.packet, self.profile, bad)
+                with self.assertRaises(w.WorkflowError):
+                    w.validate_output('audit', self.outputs['audit'], self.packet, self.profile, bad)
+
+    def test_v2_invalid_rendering_maps_rejected(self):
+        for mutation in ('missing', 'duplicate', 'conflict', 'unknown-form', 'extra-field',
+                         'duplicate-form', 'no-renderings', 'empty', 'identity-field'):
+            with self.subTest(mutation=mutation):
+                ledger = self.variant_ledger()
+                identity = ledger['identities'][0]
+                mappings = identity['renderings']
+                if mutation == 'missing':
+                    mappings.pop()
+                elif mutation in ('duplicate', 'conflict'):
+                    mappings.append({'arabic': 'REPORT', 'english': 'OTHER' if mutation == 'conflict' else 'REPORT'})
+                elif mutation == 'unknown-form':
+                    mappings[1]['arabic'] = 'UNKNOWN'
+                elif mutation == 'extra-field':
+                    mappings[1]['extra'] = 'unexpected'
+                elif mutation == 'duplicate-form':
+                    identity['arabicForms'].append('REPORT')
+                elif mutation == 'no-renderings':
+                    del identity['renderings']
+                elif mutation == 'empty':
+                    identity['renderings'] = []
+                else:
+                    identity['extra'] = 'unexpected'
+                with self.assertRaises(w.WorkflowError):
+                    self.install_name_ledger(ledger)
+
+    def test_v1_keeps_single_realization_and_rejects_v2_fields(self):
+        self.install_name_ledger(self.variant_ledger(1))
+        previous = copy.deepcopy(self.outputs)
+        previous['names'] = self.variant_mentions()
+        with self.assertRaises(w.WorkflowError):
+            w.validate_output('names', previous['names'], self.packet, self.profile, previous)
+        with self.assertRaises(w.WorkflowError):
+            w.validate_output('audit', self.outputs['audit'], self.packet, self.profile, previous)
+        ledger = self.variant_ledger()
+        ledger['version'] = 1
+        with self.assertRaises(w.WorkflowError):
+            self.install_name_ledger(ledger)
+
     def test_missing_unit_and_formula_modification_rejected(self):
         for mutate in [lambda units: units.pop(),
                        lambda units: units[1].update(english='SYNTHETIC X REPORT'),
