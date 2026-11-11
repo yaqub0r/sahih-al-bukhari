@@ -23,10 +23,10 @@
   },
   "methods": {},
   "policyFiles": {
-    "docs/translation/quality-workflow.md": "c14b3ce2925fbc800ffda1bcb0433fa8bbdda07d698291cd4a384240b49f744b",
+    "docs/translation/quality-workflow.md": "5ae51d7d0841a1b4dbd63771486293dd14b5437fee68516982b450749ddf5219",
     "docs/translation/agent-workflow.md": "f280c6edb08f5329499fd7e97fbeb6af1a3f1c70ce5abbb87228b8a8e2b1bb20",
-    "docs/translation/stage-contracts.md": "87cbef8b5c992d1e7d66872312efcdbed41e088f3e7ab47c945395644a7c0828",
-    "scripts/translation_workflow.py": "ad3f106a501c3e66e5bf1d628d1eacacd30069ebb09c486f43a12b8401e36e90"
+    "docs/translation/stage-contracts.md": "358d2e61a1b2d175abd5d2443fcf9cba3b488128f14a85f56ca94adfcafffc12",
+    "scripts/translation_workflow.py": "75d2f186ff71d2f6c8751e6f672ce1819617ead83f25bdb48ed4713ef788ea3b"
   },
   "limitations": [
     "UNCONFIGURED: not eligible for translation, processing, or publication",
