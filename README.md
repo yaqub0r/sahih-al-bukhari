@@ -6,10 +6,13 @@ transcription. This is a text-only edition: it is not verified against scans.
 
 ## Current status
 
-Template adoption and source audit are in progress under issue #1. No translation
-release or human scholarly approval is claimed. Synthetic fixtures are tests,
-never book content. Private translation candidates and review evidence remain in
-ignored runtime storage. Public Git contains tooling, policies and safe metadata.
+The first public-working release covers the opening and Book of Faith: 110
+retained units and numbered reports 1–58, including ordered Arabic isnads,
+branches, missing links and all uncertainty disclosures. Every record remains
+**human-unreviewed**. This is a partial-work release, not completion of the
+collection or human scholarly approval. See [Releases](https://github.com/yaqub0r/sahih-al-bukhari/releases)
+and the [first-release decision](docs/decisions/bukhari-working-release-1.md).
+Private drafts, execution captures and review evidence remain excluded.
 
 ## Translation policy
 
@@ -23,9 +26,11 @@ English witnesses are disabled unless separately qualified.
 Commercial use is the owner's intended use, with explicitly accepted residual
 rights uncertainty; it is not a representation that OpenITI granted commercial
 permission. The source decision distinguishes medieval text from modern editorial
-contributions and corpus/database rights. No license to third parties for new
-project content or code is granted yet. Public text distribution requires its own
-reviewed schema and release decision; v1 metadata contracts remain unchanged.
+contributions and corpus/database rights. Our original English and project-authored structure/notes are licensed under
+[CC BY 4.0](LICENSE-CONTENT.md), permitting commercial reuse under its terms.
+This does not relicense third-party source contributions or repository software.
+The scoped distribution decision preserves accepted source risks and attribution;
+v1 metadata contracts remain unchanged.
 
 ## Local verification
 

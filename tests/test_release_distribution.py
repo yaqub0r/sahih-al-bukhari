@@ -49,6 +49,11 @@ class DistributionTests(unittest.TestCase):
             with self.subTest(value=value),self.assertRaises(d.ReleaseError):d.safe_payload(value)
         self.proposal['records'][0]['unknown']={'arabic':'not allowlisted'}
         with self.assertRaises(d.ReleaseError):self.compile()
+    def test_public_urls_are_not_windows_paths(self):
+        for value in ['https://creativecommons.org/licenses/by/4.0/','http://example.org/license','Source: https://example.org/book']:
+            d.safe_payload(value)
+        for value in ['C:/private/book','D:\\private\\book','See E:/private/book']:
+            with self.assertRaises(d.ReleaseError):d.safe_payload(value)
     def test_schema_fails_closed(self):
         for schema in [{'type':'string','format':'uri'},{'$ref':'https://example.org/schema'},{'type':'object','properties':{}}]:
             with self.assertRaises(d.ReleaseError):d.schema_check(schema,{})

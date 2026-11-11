@@ -5,7 +5,7 @@
   "contractId": "sahih-al-bukhari-distribution-1",
   "recordSchema": "contracts/distribution-v1/hadith-record.schema.json",
   "adapter": "scripts/bukhari_release_adapter.py",
-  "publicationEnabled": false,
+  "publicationEnabled": true,
   "exampleOnly": false,
   "approverIds": [
     "bukhari-owner-reviewer"

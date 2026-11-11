@@ -41,7 +41,7 @@ def safe_payload(value):
     elif isinstance(value,list):
         for child in value: safe_payload(child)
     elif isinstance(value,str):
-        require(not re.search(r'(?i)([a-z]:[\\/]|file://|(?:^|\s)/(?:home|users|tmp|mnt)/|\.runtime[\\/]|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_)',value), 'private locator or credential pattern prohibited')
+        require(not re.search(r'(?i)((?<![A-Za-z0-9])[a-z]:[\\/]|file://|(?:^|\s)/(?:home|users|tmp|mnt)/|\.runtime[\\/]|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_)',value), 'private locator or credential pattern prohibited')
 
 def lint_schema(schema):
     """Validate every branch, including absent optional properties/unused defs."""

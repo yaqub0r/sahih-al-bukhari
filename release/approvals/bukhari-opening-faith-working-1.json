@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "releaseId": "bukhari-opening-faith-working-1",
+  "proposalSha256": "0345458b89348217914fde08bc017a75f3e0334ba34903168f8e1afa8dd3652a",
+  "schemaSha256": "4632bb3501034b802a50c3a7c89025285e243769102f5e2692d388ceecb1d0d5",
+  "approvedBy": "bukhari-owner-reviewer",
+  "decisionId": "bukhari-working-release-1-owner-approved",
+  "authorized": true
+}
