@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "bookId": "synthetic-book",
+  "repository": "example/synthetic-book",
+  "contractId": "synthetic-book-distribution-1",
+  "recordSchema": "tests/fixtures/distribution/synthetic-record.schema.json",
+  "adapter": "tests/fixtures/distribution/synthetic-adapter.py",
+  "publicationEnabled": false,
+  "exampleOnly": true,
+  "approverIds": []
+}

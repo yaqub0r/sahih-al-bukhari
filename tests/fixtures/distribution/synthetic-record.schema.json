@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:synthetic-book:distribution-record:1",
+  "title": "Synthetic distribution record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sourceUnitId",
+    "sourceOrdinal",
+    "kind",
+    "arabic",
+    "english",
+    "humanReview",
+    "machineState"
+  ],
+  "properties": {
+    "sourceUnitId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceOrdinal": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "entry"
+      ]
+    },
+    "arabic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "english": {
+      "type": "string",
+      "minLength": 1
+    },
+    "humanReview": {
+      "type": "string",
+      "enum": [
+        "unreviewed",
+        "human-reviewed"
+      ]
+    },
+    "machineState": {
+      "type": "string",
+      "enum": [
+        "agent_complete"
+      ]
+    }
+  }
+}

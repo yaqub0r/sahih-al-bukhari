@@ -23,3 +23,7 @@
 - [ ] Obtain any separately required canonical-promotion decision.
 - [ ] Keep immutable artifacts; never repair them in place.
 - [ ] Record release outcome and incidents without embedding private evidence in public metadata.
+
+## Book-text distribution tooling
+
+For executable preparation and disabled-by-default manual publication, follow [the distribution workflow](distribution-workflow.md). Keep real proposals private until separately authorized. Template synthetic fixtures are never release content.

@@ -43,3 +43,9 @@ Hadith records also require a [source-bound ordered isnad companion](docs/transl
 It separates narration paths from matn while retaining exact Arabic transmission
 wording, branches, missing links and uncertainty. Translation-only completion is
 insufficient for an adopted hadith scope. Existing v1 metadata contracts are unchanged.
+
+## Prepare a book distribution
+
+See [the reusable release workflow](docs/distribution-workflow.md) for deterministic private preparation, review, explicit licensing and separately authorized manual publication. Publishing is disabled by default; existing v1 metadata contracts remain unchanged.
+
+Bukhari: [first-release candidate and ordered isnad contract](docs/bukhari-release-candidate.md).
