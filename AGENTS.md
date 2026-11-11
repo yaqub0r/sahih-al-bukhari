@@ -58,3 +58,8 @@ does not certify this book-specific requirement. Fresh extraction and independen
 Arabic structural audit need actual host captures; every uncertainty must remain
 visible in the companion review. Structures/evidence remain private under the
 same book-text boundary; public Git contains synthetic contracts/tooling only.
+
+## Distribution preparation and publication
+
+Read docs/distribution-workflow.md before preparing or changing release tooling. Keep unpublished real proposals and archives private; GitHub drafts and public PRs also cross the public boundary. Use closed adopter schemas and semantic admission, deterministic archive/closure validation, exact commit and review bindings. Never dispatch publishing, invent approval, enable publication or assert a license merely because a private candidate passes. Template fixtures remain synthetic-only and unpublishable.
+Read docs/bukhari-release-candidate.md for hadith-specific projection and the pending first-release rights decision. Existing bound translation policies and private companions remain immutable.

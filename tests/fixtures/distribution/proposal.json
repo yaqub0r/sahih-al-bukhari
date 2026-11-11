@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "releaseId": "synthetic-working-1",
+  "previousReleaseId": null,
+  "bookId": "synthetic-book",
+  "title": "Synthetic distribution demonstration",
+  "sourceAuthority": {
+    "id": "synthetic-authority",
+    "revision": "invented-1",
+    "artifactSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "edition": "Invented test material only",
+    "attribution": "Synthetic fixtures; no real book",
+    "limitations": [
+      "Synthetic example; not a real translation or source."
+    ]
+  },
+  "rights": {
+    "decisionId": "synthetic-pending",
+    "status": "pending",
+    "originalContentLicense": null,
+    "arabicBasis": "Invented test strings; no source-rights precedent.",
+    "attribution": "Synthetic fixture only",
+    "excludedMaterial": [
+      "All real book content"
+    ],
+    "residualRisk": "No adopter rights decision is supplied."
+  },
+  "scope": {
+    "description": "One invented record",
+    "completeWork": false,
+    "includedUnitIds": [
+      "synthetic-1"
+    ],
+    "numberedReportCount": 0
+  },
+  "records": [
+    {
+      "sourceUnitId": "synthetic-1",
+      "sourceOrdinal": 1,
+      "kind": "entry",
+      "arabic": "SYNTHETIC SOURCE STRING",
+      "english": "Invented sample text.",
+      "humanReview": "unreviewed",
+      "machineState": "agent_complete"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "authoritySha256": "ebeb14214fffa8fcc3327065b04182aa7eeca029f5cce860462efc33d984577b",
+  "inventorySha256": "fbbd932fe1ee7fac06b301185a71c3e225e5873e91dd2b314ba3e0166907e416",
+  "sourceArtifactSha256": "69e95684acfde24171d29dd7ba43ff2c8f9b54ade5e3ab0a73899c06671082b7",
+  "sourceRevision": "44e1c36738a2bf5c14dafa232a6ae1891e6171cd",
+  "companionSha256": {
+    "opening": "86492d6c1d9f6c9abae3a870981c06a0925572b10e12182ccd405d7947f49687",
+    "faith": "047c3459146a6d75e9ca4354477943e8bc5c3493227444622a807147df103d17"
+  }
+}
