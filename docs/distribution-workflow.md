@@ -64,8 +64,9 @@ canonical promotion remain separate. This first contract uses
    treatment. A boolean status is a recorded decision, never a grant of rights.
 5. Configure the `public-release` GitHub environment with required maintainer
    reviewers and main-only deployment restrictions. Enable repository release
-   immutability. The workflow checks the GitHub immutable-releases API and fails
-   on missing permission, unknown state, or disabled immutability. It does not
+   immutability. The owner-authenticated finalizer checks the GitHub immutable-releases API
+   and fails on missing permission, unknown state, or disabled immutability.
+   The Actions token cannot read administration settings. Neither stage changes
    change repository settings or protections. Configure the required
    `contracts-and-policy` check; branch protection remains an adopter decision.
 
@@ -90,12 +91,35 @@ Merge the content/approval/configuration change normally. Prepare and review the
 archive again using that exact final main commit; the different commit changes
 its manifest and checksum. Dispatch `publish-public-distribution.yml` manually
 with full repository_commit, proposal_path and exact archive_sha256. There is no
-push or PR trigger and no automatic dispatch on merge. The publisher checks
-current main, clean checkout, tracked proposal/approval, successful
-contracts-and-policy, configured repository, non-synthetic enabled configuration,
-rights decision, exact approval bindings and archive checksum. It builds twice
-and compares bytes before creating any tag/release. An existing tag/release or
-uncertain API result fails closed. No direct private runtime folder is uploaded.
+push or PR trigger and no automatic dispatch on merge. Its main-only
+`public-release` environment requires the normal maintainer approval. CI has
+read-only contents/checks permissions, runs the validators/tests, checks the
+current main/clean checkout/tracked proposal/approval/configuration/rights and
+exact bindings, builds twice, compares bytes and validates the archive checksum.
+It prints one `RELEASE_VALIDATION_RECEIPT` binding actual run ID, commit,
+proposal locator/digest, schema digest and exact archive digest into GitHub-owned
+run logs. CI creates no tag, release or uploaded content and never reads the
+administration-only immutable-releases endpoint.
+
+After that exact workflow succeeds, finalize from the established owner-owned
+checkout using the authenticated maintainer GitHub CLI (no administrator token
+is stored in Actions):
+
+```console
+python scripts/publish_distribution.py --validation-run-id SUCCESSFUL_RUN_ID --commit REVIEWED_MAIN_COMMIT --proposal release/proposals/RELEASE_ID.json --expected-sha256 REVIEWED_ARCHIVE_SHA256
+```
+
+The finalizer rejects Actions execution. It retrieves the successful matching
+manual main run from GitHub, checks its workflow path, requires a normal
+`public-release` approval by the same authenticated human maintainer and verifies
+the unique input/checksum receipt in GitHub run logs. A failed run, administrator
+bypass without approval, different input, stale commit or missing log cannot
+qualify. It repeats exact local input/archive checks and performs the mandatory
+live immutability check with the owner's authenticated client immediately before
+any mutation. This is a credential boundary, not a skipped check. Existing tags,
+releases or uncertain API results fail closed. No private runtime directory is
+uploaded. Keep run logs available until publication; if unavailable, perform a
+new protected validation, never invent a receipt.
 
 The release tag is `public-working-<full-commit>` and the assets are
 `<book-id>-public-distribution-<full-commit>.zip` plus its `.sha256`. The exact-commit tag is created atomically through GitHub (an intervening tag

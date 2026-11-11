@@ -56,3 +56,15 @@ normal environment-approval endpoint, never an administrator bypass. Existing
 branch controls are unchanged; successful contracts-and-policy is required by
 the release publisher even where main lacks branch protection. Every future
 release requires its own explicit reviewed approval and archive binding.
+
+## Credential-boundary correction before first publication
+
+The first dispatch passed all hosted tests but stopped before tag creation:
+GitHub's Actions token cannot read the administration-only immutability API.
+The corrected workflow is protected read-only validation; final publication is
+performed in the owner-owned checkout with the authenticated owner CLI after a
+successful matching run and its normal environment approval. The finalizer binds
+the exact inputs/checksum through GitHub run logs, repeats archive checks, and
+checks immutability live before any tag/release mutation. No broad administrator
+credential is added to CI and no gate is bypassed. The failed dispatch is retained
+as failure evidence and cannot qualify the finalizer.

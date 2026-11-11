@@ -1,4 +1,4 @@
-name: Publish reviewed public-working distribution
+name: Validate reviewed public-working distribution
 on:
   workflow_dispatch:
     inputs:
@@ -20,13 +20,13 @@ concurrency:
   group: public-distribution
   cancel-in-progress: false
 jobs:
-  publish:
+  prepare:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: public-release
     permissions:
-      contents: write
+      contents: read
       checks: read
     steps:
       - name: Check out the requested reviewed revision
@@ -34,7 +34,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.repository_commit }}
-      - name: Validate and publish only the exact approved archive
+      - name: Validate the exact approved archive for owner finalization
         env:
           GH_TOKEN: ${{ github.token }}
           REVIEWED_COMMIT: ${{ inputs.repository_commit }}
@@ -45,4 +45,4 @@ jobs:
           set -euo pipefail
           python3 scripts/validate_repository.py
           python3 -m unittest discover -s tests -v
-          python3 scripts/publish_distribution.py --commit "$REVIEWED_COMMIT" --proposal "$REVIEWED_PROPOSAL" --expected-sha256 "$REVIEWED_SHA256"
+          python3 scripts/publish_distribution.py --prepare-only --commit "$REVIEWED_COMMIT" --proposal "$REVIEWED_PROPOSAL" --expected-sha256 "$REVIEWED_SHA256"
