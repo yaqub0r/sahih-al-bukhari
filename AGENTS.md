@@ -36,3 +36,25 @@ importer and adoption changes before admitting a production scope.
 
 صحيح البخاري: Ṣaḥīḥ al-Bukhārī; distinguish ḥ from ordinary h, kh from k, and
 retain long ī and ā. الإسناد: al-isnād, chain of transmission.
+
+## Hadith-specific ordered isnad requirement
+
+A hadith scope is not complete with prose translation alone. Follow
+`docs/translation/hadith-structure.md`: retain the exact Arabic as authority and
+provide an independently audited private companion with ordered narrator
+occurrences, exact transmission phrases, isnad/matn/comment segmentation,
+alternative/embedded paths, shared branches and explicit missing/implicit or
+uncertain links. Never invent a narrator or infer historical continuity merely
+from graph order. Keep ambiguous short names distinct until evidence supports
+identity reconciliation. Quoted participants in the matn are not automatically
+transmitters. Inventory transmissions in headings, comments and follow-ups too.
+
+Existing translation candidates and prior profiles remain immutable. A legacy
+opening candidate may receive a separately versioned source/hash-bound companion;
+do not overwrite it to add fields to its closed schema. Every subsequent hadith
+scope requires the validated companion manifest alongside the translation
+submission before project-level completion. The generic translation CLI alone
+does not certify this book-specific requirement. Fresh extraction and independent
+Arabic structural audit need actual host captures; every uncertainty must remain
+visible in the companion review. Structures/evidence remain private under the
+same book-text boundary; public Git contains synthetic contracts/tooling only.
