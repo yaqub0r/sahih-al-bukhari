@@ -1,5 +1,7 @@
 """Prefix contract major 2: unchanged v2 base plus typed textual continuation."""
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts import bukhari_prefix_release_adapter_v1 as base
 from scripts import hadith_supplements_v1 as supplements
 from scripts import release_distribution as d
