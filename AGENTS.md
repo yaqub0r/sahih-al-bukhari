@@ -74,3 +74,15 @@ approval may be public; raw private authorities, stage evidence and later scopes
 remain private. This scoped authorization supersedes earlier preparation-only
 holds for that proposal. It never converts machine completion to human review,
 licenses third-party rights, or authorizes subsequent unapproved releases.
+
+## Owner-authorized remaining collection and successor release
+
+The owner now authorizes the entire remaining collection under the same English
+and separate isnad workflow, autonomous routine steps and the next CC BY 4.0
+human-unreviewed working release. Follow docs/collection-continuation.md. This
+extends earlier first-release-only scope; no further routine release confirmation
+is required. Per-scope qualification and all existing quality/capture/rights gates
+remain mandatory. Preserve first-release bytes, private evidence and real holds.
+For chapter cohorts, independently review actual semantic cuts and bind the
+continued-context adapter; inherited bilingual/isnad records are frozen reuse,
+not newly translated units or extra collection progress.
