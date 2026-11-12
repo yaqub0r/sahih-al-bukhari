@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 POLICY='release/prefix-source-admission-v1.json'
 FULL='release/collection-source-admission.json'
 REGISTRY='release/prefix-projections-v1.json'
+ARABIC_BASIS='The underlying classical Arabic passages are the distribution subject, with modern introductions, footnotes, editorial discussion, indices and corpus annotations excluded. The owner authorized external distribution of this cumulative 1–1471 source-unit prefix through Description of Prayer and accepted disclosed residual editorial/database risks. All records remain human-unreviewed. No commercial grant from OpenITI is claimed.'
 FIELDS='version authoritySha256 inventorySha256 sourceArtifactSha256 sourceRevision previousProposalSha256 previousReleaseId sourceAuthorityId fullAdmissionSha256 targetReleaseId totalUnits throughSourceDivision sourceDivisions sourceUnits previousRecordDigests title scope rightsDecisionId'
 
 
@@ -53,6 +54,7 @@ def validate_candidate(records,proposal):
     require(source['id']==policy['sourceAuthorityId'] and source['artifactSha256']==policy['sourceArtifactSha256'] and source['revision']==policy['sourceRevision'],'prefix source provenance drift')
     rights=proposal['rights']
     require(rights['status']=='approved' and rights['originalContentLicense']=='CC-BY-4.0' and rights['decisionId']==policy['rightsDecisionId'],'scoped CC BY 4.0 owner decision required')
+    require(rights['arabicBasis']==ARABIC_BASIS,'prefix Arabic rights rationale must match current authorized scope')
     validate_divisions(records,policy['sourceDivisions'],1471)
     validate_source_binding(records,policy)
     validate_isnads(records,proposal);validate_public_records(records)

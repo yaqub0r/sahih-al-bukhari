@@ -25,7 +25,7 @@ def fixture():
     policy={k:copy.deepcopy(v) for k,v in full.items() if k not in ['sourceUnits','sourceDivisions','totalUnits']}
     policy.update(fullAdmissionSha256=d.digest(full),targetReleaseId='bukhari-through-prayer-working-2',totalUnits=1471,throughSourceDivision=16,sourceUnits=sources,sourceDivisions=divisions,title='Sahih al-Bukhari through Description of Prayer human-unreviewed',scope={'description':'Partial authority through 16. Later source divisions are excluded.','completeWork':False,'includedUnitIds':[r['sourceUnitId'] for r in rows],'numberedReportCount':836},rightsDecisionId='bukhari-through-prayer-working-2-owner-authorized')
     p.update(releaseId=policy['targetReleaseId'],previousReleaseId=policy['previousReleaseId'],title=policy['title'],scope=copy.deepcopy(policy['scope']),records=rows)
-    p['rights'].update(status='approved',originalContentLicense='CC-BY-4.0',decisionId=policy['rightsDecisionId'])
+    p['rights'].update(status='approved',originalContentLicense='CC-BY-4.0',decisionId=policy['rightsDecisionId'],arabicBasis=a.ARABIC_BASIS)
     return p,policy,full
 
 
@@ -47,7 +47,7 @@ class PrefixTests(unittest.TestCase):
         for key,value in [('completeWork',True),('numberedReportCount',835),('description','Complete collection')]:
             p={**self.p,'scope':{**self.p['scope'],key:value}}
             with self.subTest(key=key),self.assertRaises(ValueError):self.validate(p)
-        for key,value in [('originalContentLicense','CC0-1.0'),('status','pending'),('decisionId','other')]:
+        for key,value in [('originalContentLicense','CC0-1.0'),('status','pending'),('decisionId','other'),('arabicBasis','Only the previous 110 units are authorized')]:
             with self.subTest(key=key),self.assertRaises(ValueError):self.validate({**self.p,'rights':{**self.p['rights'],key:value}})
     def test_record_identity_predecessor_private_leak_and_completeness(self):
         for index,key,value in [(110,'sourceOrdinal',9999),(110,'printedHadithNumber',900),(110,'kind','heading'),(110,'humanReview','human-reviewed'),(110,'machineState','draft'),(110,'privateEvidence','hidden'),(0,'english','Replacement synthetic English'),(0,'uncertainties',[{'reportId':None,'category':'translation','summary':'New uncertainty'}])]:
@@ -79,10 +79,26 @@ class PrefixTests(unittest.TestCase):
             with self.assertRaises(ValueError):producer.derive_authority({'units':units},inventory,self.policy,self.full)
         authority['units'][-1]['arabic']='Changed invented later authority'
         with self.assertRaises(ValueError):producer.derive_authority(authority,inventory,self.policy,self.full)
-    def test_production_surface_stays_disabled_unregistered_and_full_gate_frozen(self):
-        self.assertFalse(d.read(ROOT/'release/distribution-prefix-v1.config.json')['publicationEnabled'])
-        self.assertEqual(d.read(ROOT/a.REGISTRY),{'version':1,'entries':[]})
-        a.load_policy()
+    def test_producer_refreshes_scope_without_relicensing_predecessor(self):
+        old={**self.p['rights'],'arabicBasis':'Only the previous 110 units are authorized','decisionId':'earlier-decision'}
+        current=producer.scoped_rights(old,self.policy)
+        self.assertEqual(current['arabicBasis'],a.ARABIC_BASIS)
+        self.assertEqual(current['decisionId'],self.policy['rightsDecisionId'])
+        for key in old.keys()-{'arabicBasis','decisionId'}:self.assertEqual(current[key],old[key])
+        self.validate({**self.p,'rights':current})
+    def test_current_production_surface_requires_registration_and_approval(self):
+        config=d.read(ROOT/'release/distribution-prefix-v1.config.json');registry=d.read(ROOT/a.REGISTRY)
+        self.assertFalse(config['exampleOnly']);policy=a.load_policy()
+        if config['publicationEnabled']:
+            release=policy['targetReleaseId'];p=d.read(ROOT/'release/proposals'/(release+'.json'));schema,adapter=d.load_contract(ROOT,config)
+            d.validate_proposal(p,config,schema,adapter)
+            approval=d.read(ROOT/'release/approvals'/(release+'.json'))
+            d.closed(approval,'version releaseId proposalSha256 schemaSha256 approvedBy decisionId authorized')
+            self.assertEqual(approval['version'],1);self.assertIs(approval['authorized'],True)
+            self.assertIn(approval['approvedBy'],config['approverIds']);self.assertEqual(approval['releaseId'],release)
+            self.assertEqual(approval['proposalSha256'],d.digest(p));self.assertEqual(approval['schemaSha256'],d.digest(schema))
+            self.assertEqual(approval['decisionId'],p['rights']['decisionId'])
+        else:self.assertEqual(registry,{'version':1,'entries':[]})
         from scripts import bukhari_release_adapter_v2 as full
         with self.assertRaises(ValueError):full.validate_candidate(self.p['records'],self.p)
 
