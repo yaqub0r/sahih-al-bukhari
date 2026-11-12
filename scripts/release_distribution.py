@@ -171,10 +171,38 @@ def validate_proposal(proposal, config, schema, adapter):
     require(len(set(ordinals))==len(ordinals) and ordinals==sorted(ordinals),'unique increasing ordinals required')
     adapter.validate_records(records,proposal)
 
+def contextual_reader(record, records):
+    """Display the full referenced chains, not only opaque machine identifiers."""
+    context = record.get('contextualIsnad')
+    if context is None:
+        return ''
+    antecedent = records[context['antecedentUnitId']]
+    nodes = {n['id']:n for n in antecedent['isnad']['nodes']}
+    edges = {e['id']:e for e in antecedent['isnad']['edges']}
+    current = next(n for n in record['isnad']['nodes'] if n['id'] == context['currentSourceNodeId'])
+    esc = html.escape
+    parts = ['<div class="contextual-isnad"><h3>Textual continuation from <a href="#'+esc(antecedent['sourceUnitId'], quote=True)+'">'+esc(antecedent['sourceUnitId'])+'</a></h3>', '<p>These are two contextual ascriptions to the distinct narrator occurrence printed here. They do not assert a new hearing event, identity merger, or historical contact.</p>', '<p>Current wording: <span lang="ar" dir="rtl">'+esc(' / '.join(c['arabic'] for c in context['cues']))+'</span></p>']
+    for branch in context['branches']:
+        parts.append('<h4>'+esc(branch['id'])+'</h4><ol>')
+        for i,node_id in enumerate(branch['antecedentNodeIds']):
+            node = nodes[node_id]
+            label = node['arabic'] if node['arabic'] is not None else '[implicit compiler]'
+            parts.append('<li><span lang="ar" dir="rtl">'+esc(label)+'</span> <small>'+esc(node_id)+'</small>')
+            if i < len(branch['antecedentEdgeIds']):
+                edge = edges[branch['antecedentEdgeIds'][i]]
+                wording = edge['arabicWording'] if edge['arabicWording'] is not None else '[unprinted wording]'
+                parts.append(' <span lang="ar" dir="rtl">'+esc(wording)+'</span> <small>'+esc(edge['mode'])+'</small>')
+            parts.append('</li>')
+        parts.append('<li>Contextual ascription: <span lang="ar" dir="rtl">'+esc(current['arabic'])+'</span> <small>distinct current occurrence '+esc(current['id'])+'</small></li></ol>')
+    parts.append('<p>Uncertainty and limits: '+esc(context['uncertainty'])+'</p></div>')
+    return ''.join(parts)
+
+
 def reader(proposal):
     parts=['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(proposal['title'])+'</title><style>body{max-width:980px;margin:2rem auto;padding:0 1rem;font:17px/1.6 system-ui}pre{white-space:pre-wrap;overflow-wrap:anywhere;unicode-bidi:plaintext}section{border-top:1px solid #ccc;margin-top:2rem}.arabic{font-size:1.3em}</style>', '<h1>'+html.escape(proposal['title'])+'</h1>', '<p>Public-working release candidate. Human review is disclosed per record. Textual chains do not certify historical continuity.</p>', '<h2>Rights and source limits</h2><pre>'+html.escape(json.dumps({'rights':proposal['rights'],'sourceAuthority':proposal['sourceAuthority'],'scope':{k:v for k,v in proposal['scope'].items() if k!='includedUnitIds'}},ensure_ascii=False,sort_keys=True,indent=2))+'</pre>']
+    indexed_records = {r['sourceUnitId']:r for r in proposal['records']}
     for r in proposal['records']:
-        parts+=['<section id="'+html.escape(r['sourceUnitId'],quote=True)+'"><h2>'+html.escape(r['sourceUnitId'])+'</h2><p>'+html.escape(r['humanReview'])+'</p>','<pre>'+html.escape(r['english'])+'</pre>','<pre class="arabic" lang="ar" dir="rtl">'+html.escape(r['arabic'])+'</pre>','<details><summary>Ordered structure and disclosed uncertainties</summary><pre>'+html.escape(json.dumps({k:v for k,v in r.items() if k not in ['arabic','english']},ensure_ascii=False,sort_keys=True,indent=2))+'</pre></details></section>']
+        parts+=['<section id="'+html.escape(r['sourceUnitId'],quote=True)+'"><h2>'+html.escape(r['sourceUnitId'])+'</h2><p>'+html.escape(r['humanReview'])+'</p>','<pre>'+html.escape(r['english'])+'</pre>','<pre class="arabic" lang="ar" dir="rtl">'+html.escape(r['arabic'])+'</pre>','<details><summary>Ordered structure and disclosed uncertainties</summary><pre>'+html.escape(json.dumps({k:v for k,v in r.items() if k not in ['arabic','english']},ensure_ascii=False,sort_keys=True,indent=2))+'</pre></details>'+contextual_reader(r,indexed_records)+'</section>']
     return ('\n'.join(parts)+'</html>\n').encode('utf-8')
 
 def compile_files(proposal,config,schema,adapter,commit):

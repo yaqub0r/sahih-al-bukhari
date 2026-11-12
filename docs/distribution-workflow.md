@@ -178,3 +178,12 @@ No push, test, local candidate build or registration-candidate output publishes
 content. Normal protected workflow approval, exact current main, independent
 reviewed content/approval, reproducible archive and live immutable publication
 checks continue to apply. The full-collection v2 gate remains unchanged.
+
+## Unpublished contextual prefix upgrade
+
+The unchanged prefix config locator now selects contract major 2 and record
+schema 3 for typed cross-record textual continuation. Publication remains disabled.
+Use the authenticated private wrapper and internal `prefix_release_v2.prepare`
+API; the older producer cannot prepare the required context layer. See
+[the supplement contract and exact private API](contextual-isnad-supplements.md).
+Existing bound engines, published records and prefix authority pins are unchanged.
