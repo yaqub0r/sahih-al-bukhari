@@ -84,3 +84,14 @@ coordinated recipients remains allowed. Private per-cue semantic inventories
 support complete source reading, including explicit hearing/onward transmission
 inside matn, and never substitute for fresh independent full Arabic/English audit.
 The original frozen private-v1 contract and first release are not rewritten.
+
+## Qualified narrator occurrence checks
+
+The collector also requires `hadith_occurrence_checks.validate_bound` on each new
+cohort. It verifies the reviewed occurrence inventory against the exact source
+and ledger files before comparing literal narrator spans with source-specific
+identity decisions. A known physical occurrence cannot remain unresolved or
+acquire another identity. A transmission phrase wholly inside a protected
+devotional formula is rejected. These checks do not guess identities from short
+name strings, reject legitimate attached prepositions, or certify semantic
+completeness. Fresh source-based structural review remains required.

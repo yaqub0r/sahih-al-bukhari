@@ -6,6 +6,7 @@ from types import SimpleNamespace
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from scripts import translation_workflow as w
 from scripts import hadith_structure as h
+from scripts import hadith_occurrence_checks as occurrence
 from scripts import continued_context as carry
 from scripts import release_distribution as d
 from scripts.prepare_bukhari_release import project
@@ -62,6 +63,7 @@ def admitted_cohort(entry,ordinals,numbers,sessions):
     h.require(translation.resolve()==(run/'submission.json').resolve(),'isnad companion binds another English candidate')
     h.require(manifest['artifacts']['source']['sha256']==packet['sourceSha256'] and manifest['artifacts']['ledger']['sha256']==profile['nameLedger']['sha256'],'core/isnad source or ledger differs')
     graph=h.read(ROOT/'.runtime'/manifest['artifacts']['structure']['path'])
+    occurrence.validate_bound(ROOT/config['source'],ROOT/'.runtime'/manifest['artifacts']['structure']['path'],ROOT/config['coverage'],ROOT/profile['nameLedger']['path'])
     core_sessions=[w.read(run/(stage+'.json'))['host']['sessionId'] for stage in w.stages(profile)]
     other=[h.read(ROOT/'.runtime'/manifest['artifacts'][key]['path'])['sessionId'] for key in ['extractionReceipt','auditReceipt']]
     h.require(len(set(core_sessions+other))==len(core_sessions+other) and not set(core_sessions+other)&sessions,'semantic stage session reused across cohort/role')
