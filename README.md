@@ -53,4 +53,4 @@ insufficient for an adopted hadith scope. Existing v1 metadata contracts are unc
 
 See [the reusable release workflow](docs/distribution-workflow.md) for deterministic private preparation, review, explicit licensing and separately authorized manual publication. Publishing is disabled by default; existing v1 metadata contracts remain unchanged.
 
-Bukhari: [first-release candidate and ordered isnad contract](docs/bukhari-release-candidate.md).
+Bukhari: [through Description of Prayer working release](docs/decisions/bukhari-through-prayer-working-2.md) — 1,471 records, including 836 numbered report occurrences, all human-unreviewed. See [GitHub releases](https://github.com/yaqub0r/sahih-al-bukhari/releases) for published archives. The [first-release candidate and ordered isnad contract](docs/bukhari-release-candidate.md) remains available.

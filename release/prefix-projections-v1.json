@@ -1,4 +1,13 @@
 {
   "version": 1,
-  "entries": []
+  "entries": [
+    {
+      "releaseId": "bukhari-through-prayer-working-2",
+      "proposalSha256": "0a9748a05feec9b393437d8422cc8c70c912bf04f0602afefeb1222d215da064",
+      "prefixPolicySha256": "bdf7d7fe4d00c101e374067129113d9ffde9da87017c98427aad4ad14379c355",
+      "sourceAuthoritySha256": "ebeb14214fffa8fcc3327065b04182aa7eeca029f5cce860462efc33d984577b",
+      "recordCount": 1471,
+      "throughSourceDivision": 16
+    }
+  ]
 }

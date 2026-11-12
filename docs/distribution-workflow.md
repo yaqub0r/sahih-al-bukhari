@@ -154,13 +154,15 @@ References: [Al-Isabah distribution design](https://github.com/yaqub0r/al-isabah
 ## Explicit successor configuration
 
 For the partial through-Prayer release, see
-[the scoped decision](decisions/bukhari-through-prayer-working-2.md). Prepare privately
-with `scripts/prefix_release_v1.py --authority FULL_AUTHORITY --inventory FULL_INVENTORY
---cohorts PRIVATE_COHORT_LEDGER --output NEW_PRIVATE_PROPOSAL`. The producer requires
-full frozen inputs, admits existing authentic cohorts, derives the whole-division
-prefix internally and writes private admission and registration-candidate sidecars.
-The candidate sidecar does not promote the public registry. The new prefix config
-stays disabled and its registry empty until authentic independent projection review.
+[the scoped decision](decisions/bukhari-through-prayer-working-2.md). The current
+producer is the internal `scripts.prefix_release_v3.prepare` API. Its owning
+private wrapper must authenticate the complete book supplement and adoption
+before calling it; the CLI deliberately fails closed. It requires the full frozen
+authority, inventory and admitted cohort ledger, derives the whole-division
+prefix internally, and writes private admission and registration-candidate
+sidecars. A candidate sidecar alone does not promote the public registry.
+Independent review of the actual projection must precede the tracked proposal,
+registry, exact digest approval and configuration change.
 
 Select `release/distribution-prefix-v1.config.json` explicitly using `--config`
 for compiler build/validate/authorize and publisher preparation/finalization. The
@@ -179,11 +181,15 @@ content. Normal protected workflow approval, exact current main, independent
 reviewed content/approval, reproducible archive and live immutable publication
 checks continue to apply. The full-collection v2 gate remains unchanged.
 
-## Unpublished contextual prefix upgrade
+## Contextual prefix contract
 
-The unchanged prefix config locator now selects contract major 2 and record
-schema 3 for typed cross-record textual continuation. Publication remains disabled.
-Use the authenticated private wrapper and internal `prefix_release_v2.prepare`
-API; the older producer cannot prepare the required context layer. See
-[the supplement contract and exact private API](contextual-isnad-supplements.md).
-Existing bound engines, published records and prefix authority pins are unchanged.
+The unchanged prefix config locator selects contract major 2 and record schema 3
+for typed cross-record textual continuation. The reviewed through-Prayer proposal
+is registered with an exact owner-role digest approval; its records remain
+human-unreviewed. The names-v2 supplement preserves literal case and shared
+possessives while the source supplement retains the exact contextual branches.
+Use the authenticated private admission wrapper and internal
+`prefix_release_v3.prepare` API. Older producers cannot prepare this complete
+layer. See [the supplement contract](contextual-isnad-supplements.md) and
+[the names contract](name-alignment-supplements-v2.md). Existing bound engines,
+published predecessor records and prefix authority pins remain unchanged.
