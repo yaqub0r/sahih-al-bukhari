@@ -11,6 +11,31 @@ def tracked(root,path):
     run('git','ls-files','--error-unmatch','--',path.relative_to(root).as_posix())
     return path
 
+DEFAULT_CONFIG='release/distribution.config.json'
+# Reviewed publication surfaces only; callers cannot select an arbitrary adapter.
+SUPPORTED_CONFIGS={
+    DEFAULT_CONFIG: (),
+    'release/distribution-v2.config.json': ('release/collection-source-admission.json','release/collection-projections.json'),
+    'release/distribution-prefix-v1.config.json': ('release/prefix-source-admission-v1.json','release/prefix-projections-v1.json','release/collection-source-admission.json'),
+}
+
+
+def selected_config(root,locator):
+    d.require(locator in SUPPORTED_CONFIGS,'unsupported publication config')
+    path=tracked(root,d.contained(root,locator));config=d.read(path)
+    # load_contract also lints the closed configuration and schema.
+    schema,adapter=d.load_contract(root,config)
+    for key in ['recordSchema','adapter']:tracked(root,d.contained(root,config[key]))
+    for name in SUPPORTED_CONFIGS[locator]:tracked(root,d.contained(root,name))
+    return config,schema,adapter
+
+
+def config_binding(root,locator,config):
+    names=[locator,config['recordSchema'],config['adapter'],*SUPPORTED_CONFIGS[locator]]
+    inputs={name:d.sha(d.contained(root,name).read_bytes()) for name in sorted(set(names))}
+    return {'configPath':locator,'configSha256':inputs[locator],'contractId':config['contractId'],'contractInputsSha256':d.digest(inputs)}
+
+
 def verified_validation(repo,run_id,commit,expected):
     d.require(re.fullmatch('[0-9]+',run_id),'numeric validation run required')
     base='repos/'+repo+'/actions/runs/'+run_id
@@ -30,10 +55,11 @@ def verified_validation(repo,run_id,commit,expected):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--commit',required=True);p.add_argument('--proposal',required=True);p.add_argument('--expected-sha256',required=True)
+    p.add_argument('--config');p.add_argument('--commit',required=True);p.add_argument('--proposal',required=True);p.add_argument('--expected-sha256',required=True)
     mode=p.add_mutually_exclusive_group(required=True);mode.add_argument('--prepare-only',action='store_true');mode.add_argument('--validation-run-id')
     a=p.parse_args();d.hexsha(a.commit,40);d.hexsha(a.expected_sha256)
-    root=Path.cwd().resolve();config=d.read(root/'release/distribution.config.json');schema,adapter=d.load_contract(root,config)
+    root=Path.cwd().resolve();locator=a.config or DEFAULT_CONFIG;config,schema,adapter=selected_config(root,locator)
+    binding=config_binding(root,locator,config) if a.config is not None else None
     if a.prepare_only:
         d.require(os.environ.get('GITHUB_EVENT_NAME')=='workflow_dispatch' and os.environ.get('GITHUB_REF')=='refs/heads/main','manual main dispatch required')
         d.require(os.environ.get('GITHUB_REPOSITORY')==config['repository'],'workflow repository mismatch')
@@ -57,6 +83,7 @@ def main():
     d.require(d.sha(archive.read_bytes())==a.expected_sha256,'reviewed archive checksum mismatch')
     d.authorize(root,proposal_path,approval,config,schema,adapter,a.commit,archive)
     receipt={'version':1,'runId':os.environ.get('GITHUB_RUN_ID') if a.prepare_only else a.validation_run_id,'repositoryCommit':a.commit,'proposalPath':a.proposal,'proposalSha256':d.digest(proposal),'schemaSha256':d.digest(schema),'archiveSha256':a.expected_sha256}
+    if binding is not None:receipt.update(version=2,**binding)
     if a.prepare_only:
         d.require(isinstance(receipt['runId'],str) and receipt['runId'].isdigit(),'genuine CI run identity required')
         print('RELEASE_VALIDATION_RECEIPT='+d.canonical(receipt).decode('utf-8'))
