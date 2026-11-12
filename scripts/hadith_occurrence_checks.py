@@ -54,7 +54,11 @@ def validate_bound(source_path, structure_path, inventory_path, ledger_path):
               'reviewed occurrence inventory ledger drift')
     source, structure, ledger = (h.read(p) for p in
                                   (source_path, structure_path, ledger_path))
-    h.validate(source, structure, ledger)
+    if structure.get('version') == 2:
+        from scripts import hadith_structure_v2 as engine
+    else:
+        engine = h
+    engine.validate(source, structure, ledger)
     found = diagnostics(source, structure, inventory)
     h.require(not found, 'qualified occurrence conflicts: ' + repr(found))
     return True

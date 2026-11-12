@@ -6,10 +6,10 @@ from types import SimpleNamespace
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from scripts import translation_workflow as w
 from scripts import hadith_structure as h
+from scripts import hadith_structure_v2 as h2
 from scripts import hadith_occurrence_checks as occurrence
 from scripts import continued_context as carry
 from scripts import release_distribution as d
-from scripts.prepare_bukhari_release import project
 
 
 def content(record):
@@ -58,7 +58,9 @@ def admitted_cohort(entry,ordinals,numbers,sessions):
     # is fabricated after its completed issue was closed.
     candidate=w.read(run/'submission.json')
     h.require(candidate==w.submit(run,packet,profile,w.read(run/'claims-submit.json')),'core candidate does not match admitted independent stages')
-    manifest_path=private_path(entry['companionManifest']);manifest=h.validate_manifest(h.read(manifest_path))
+    manifest_path=private_path(entry['companionManifest']);manifest=h.read(manifest_path)
+    engine=h2 if manifest.get('kind')=='private-hadith-structure-companion-v2' else h
+    engine.validate_manifest(manifest)
     translation=ROOT/'.runtime'/manifest['artifacts']['translation']['path']
     h.require(translation.resolve()==(run/'submission.json').resolve(),'isnad companion binds another English candidate')
     h.require(manifest['artifacts']['source']['sha256']==packet['sourceSha256'] and manifest['artifacts']['ledger']['sha256']==profile['nameLedger']['sha256'],'core/isnad source or ledger differs')
@@ -78,9 +80,28 @@ def admitted_cohort(entry,ordinals,numbers,sessions):
         h.require(context['ownedUnitIds']==entry['ownedUnitIds'],'owned context accounting drift');context_ids=context['contextUnitIds']
     else:
         h.require(config['continuedContext'] is None and entry['ownedUnitIds']==[u['id'] for u in packet['units']],'whole-scope ownership cannot omit units')
-    records=project('source-division-'+str(entry['sourceDivision']).zfill(3),manifest,ordinals,numbers)
+    records=project_collection('source-division-'+str(entry['sourceDivision']).zfill(3),manifest,ordinals,numbers)
     return {'ownedUnitIds':entry['ownedUnitIds'],'contextUnitIds':context_ids,'records':records}
 
+
+def project_collection(section,manifest,ordinals,numbers):
+    engine=h2 if manifest.get('kind')=='private-hadith-structure-companion-v2' else h
+    engine.validate_manifest(manifest)
+    def load(k):return h.read(ROOT/'.runtime'/manifest['artifacts'][k]['path'])
+    source,translation,graph,audit=(load(k) for k in ['source','translation','structure','audit'])
+    result=[]
+    for s,t,g in zip(source['units'],translation['units'],graph['units']):
+        uid=s['id'];arabic=s['arabic'];uncertainties=[]
+        for f in translation['unresolved']:
+            if f['unitId']==uid:uncertainties.append({'reportId':None,'category':'translation','summary':f['publicSummary']})
+        for f in audit['findings']:
+            if f['unitId']==uid and f['status']=='human-only':uncertainties.append({'reportId':f['reportId'],'category':'structure','summary':f['detail']})
+        nodes=[{**n,'arabic':None if n['start'] is None else arabic[n['start']:n['end']]} for n in g['nodes']]
+        edges=[{**e,'arabicWording':None if e['start'] is None else arabic[e['start']:e['end']]} for e in g['edges']]
+        result.append({'sourceUnitId':uid,'sourceOrdinal':ordinals[uid],'bookSection':section,'printedHadithNumber':numbers.get(uid),'kind':s['kind'],'arabic':arabic,'english':t['english'],'arabicSha256':g['sha256'],'humanReview':'unreviewed','machineState':'agent_complete','segments':[{**v,'arabic':arabic[v['start']:v['end']]} for v in g['segments']],'isnad':{'nodes':nodes,'edges':edges,'paths':g['paths'],'reports':g['reports'],'status':g['status'],'note':g['note']},'uncertainties':uncertainties})
+        if g.get('reciprocalCommunications'):
+            result[-1]['isnad']['reciprocalCommunications']=g['reciprocalCommunications']
+    return result
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
