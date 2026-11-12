@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "bookId": "sahih-al-bukhari",
+  "repository": "yaqub0r/sahih-al-bukhari",
+  "contractId": "sahih-al-bukhari-prefix-distribution-1",
+  "recordSchema": "contracts/distribution-v2/hadith-record.schema.json",
+  "adapter": "scripts/bukhari_prefix_release_adapter_v1.py",
+  "publicationEnabled": false,
+  "exampleOnly": false,
+  "approverIds": [
+    "bukhari-owner-reviewer"
+  ]
+}

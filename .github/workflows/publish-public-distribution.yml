@@ -2,6 +2,15 @@ name: Validate reviewed public-working distribution
 on:
   workflow_dispatch:
     inputs:
+      config_path:
+        description: Reviewed distribution config
+        required: true
+        default: release/distribution.config.json
+        type: choice
+        options:
+          - release/distribution.config.json
+          - release/distribution-v2.config.json
+          - release/distribution-prefix-v1.config.json
       repository_commit:
         description: Full reviewed main commit (40 lowercase hex characters)
         required: true
@@ -37,6 +46,7 @@ jobs:
       - name: Validate the exact approved archive for owner finalization
         env:
           GH_TOKEN: ${{ github.token }}
+          REVIEWED_CONFIG: ${{ inputs.config_path }}
           REVIEWED_COMMIT: ${{ inputs.repository_commit }}
           REVIEWED_PROPOSAL: ${{ inputs.proposal_path }}
           REVIEWED_SHA256: ${{ inputs.archive_sha256 }}
@@ -45,4 +55,4 @@ jobs:
           set -euo pipefail
           python3 scripts/validate_repository.py
           python3 -m unittest discover -s tests -v
-          python3 scripts/publish_distribution.py --prepare-only --commit "$REVIEWED_COMMIT" --proposal "$REVIEWED_PROPOSAL" --expected-sha256 "$REVIEWED_SHA256"
+          python3 scripts/publish_distribution.py --prepare-only --config "$REVIEWED_CONFIG" --commit "$REVIEWED_COMMIT" --proposal "$REVIEWED_PROPOSAL" --expected-sha256 "$REVIEWED_SHA256"

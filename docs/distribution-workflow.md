@@ -150,3 +150,31 @@ with an explicit reconciled decision; do not automatically delete or retry.
 References: [Al-Isabah distribution design](https://github.com/yaqub0r/al-isabah/blob/main/docs/architecture/public-distribution.md),
 [Al-Isabah publishing workflow](https://github.com/yaqub0r/al-isabah/blob/main/.github/workflows/publish-public-distribution.yml),
 [GitHub immutable-releases API](https://docs.github.com/en/rest/repos/repos#check-if-immutable-releases-are-enabled-for-a-repository).
+
+## Explicit successor configuration
+
+For the partial through-Prayer release, see
+[the scoped decision](decisions/bukhari-through-prayer-working-2.md). Prepare privately
+with `scripts/prefix_release_v1.py --authority FULL_AUTHORITY --inventory FULL_INVENTORY
+--cohorts PRIVATE_COHORT_LEDGER --output NEW_PRIVATE_PROPOSAL`. The producer requires
+full frozen inputs, admits existing authentic cohorts, derives the whole-division
+prefix internally and writes private admission and registration-candidate sidecars.
+The candidate sidecar does not promote the public registry. The new prefix config
+stays disabled and its registry empty until authentic independent projection review.
+
+Select `release/distribution-prefix-v1.config.json` explicitly using `--config`
+for compiler build/validate/authorize and publisher preparation/finalization. The
+publisher accepts only the reviewed v1, full-v2 and prefix-v1 config paths and
+requires tracked, contained config/schema/adapter and admission/registry inputs.
+The workflow's `config_path` input defaults to the original v1 path. Use the same
+explicit selection in owner-local finalization as in the workflow. Every explicit
+selection emits a version-2 validation receipt binding config path, raw config hash,
+contract ID and deterministic raw-input closure digest, in addition to the existing
+commit/proposal/schema/archive bindings. A different config or changed closure
+cannot reuse a successful run. Existing version-1 receipts remain valid only for
+legacy invocations that omit `--config` and therefore select original v1.
+
+No push, test, local candidate build or registration-candidate output publishes
+content. Normal protected workflow approval, exact current main, independent
+reviewed content/approval, reproducible archive and live immutable publication
+checks continue to apply. The full-collection v2 gate remains unchanged.
