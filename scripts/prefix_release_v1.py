@@ -36,6 +36,10 @@ def validate_entries(entries,policy):
     h.require(owned==[x['sourceUnitId'] for x in policy['sourceUnits'][110:]],'exact ordered single ownership of every new prefix occurrence required')
 
 
+def scoped_rights(previous,policy):
+    return {**previous,'decisionId':policy['rightsDecisionId'],'arabicBasis':a.ARABIC_BASIS}
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for key in ['authority','inventory','cohorts','output']:p.add_argument('--'+key,required=True,type=Path)
@@ -50,7 +54,7 @@ def main():
     records=c.merge_owned(prefix,previous['records'],cohorts)
     proposal={**previous,'releaseId':policy['targetReleaseId'],'previousReleaseId':previous['releaseId'],'title':policy['title'],'scope':policy['scope'],'records':records}
     proposal['sourceAuthority']={**previous['sourceAuthority'],'limitations':['Text-only transcription; no scan verification.','Partial authority through source division 16 only; later divisions are excluded.','Source spellings and narrator ambiguities are retained or disclosed. Ordered textual chains do not certify historical contact.','All records remain human-unreviewed with no human scholarly approval.']}
-    proposal['rights']={**previous['rights'],'decisionId':policy['rightsDecisionId']}
+    proposal['rights']=scoped_rights(previous['rights'],policy)
     config=d.read(ROOT/'release/distribution-prefix-v1.config.json');schema,_=d.load_contract(ROOT,config)
     d.validate_proposal(proposal,config,schema,SimpleNamespace(validate_records=a.validate_candidate))
     h.write_new(out,proposal)
