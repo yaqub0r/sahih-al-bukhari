@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,sys,hashlib
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from scripts.bukhari_release_adapter import validate_records as validate_isnads
+from scripts.bukhari_isnad_adapter_v2 import validate_records as validate_isnads
 from scripts.hadith_structure import require,closed
 from scripts.hadith_integrity import validate_public_records
 from scripts import release_distribution as d

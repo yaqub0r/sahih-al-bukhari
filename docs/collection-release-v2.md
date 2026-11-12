@@ -95,3 +95,27 @@ acquire another identity. A transmission phrase wholly inside a protected
 devotional formula is rejected. These checks do not guess identities from short
 name strings, reject legitimate attached prepositions, or certify semantic
 completeness. Fresh source-based structural review remains required.
+
+## Reciprocal source communications
+
+Some source passages print a narrator telling another narrator something and
+receiving a reply from that same physical occurrence. The frozen v1 global DAG
+rule cannot represent both relations. The separately versioned
+`hadith_structure_v2` contract admits only declared, explicit, source-ordered
+reciprocal pairs in exclusive embedded paths. Its full-graph strongly connected
+component check rejects larger or undeclared cycles. See
+`docs/translation/hadith-structure-v2.md`.
+
+The collector dispatches on exact companion identity, binds the unchanged English
+submission and projects every declaration. The complete-collection public
+adapter uses v2 semantics, while the optional declaration field leaves predecessor
+record bytes unchanged. Legacy v1 contracts, first-release adapter/schema and
+active frozen core profiles remain untouched. A source-only extractor must read
+the reviewed v2 contract before finalization and receive a fresh actual capture
+binding its v2 input hash; a previous v1 capture cannot be relabeled.
+
+`continued_context_v2.bind_context` validates either exact legacy or v2 companion
+identity before copying inherited units. It reuses the frozen v1 planner, ledger
+extension and exact carry validators. Missing empty declarations stay missing;
+context graph and public record bytes remain identical. Future chapter profiles
+using this binder must bind its reviewed file alongside the existing adapter.
