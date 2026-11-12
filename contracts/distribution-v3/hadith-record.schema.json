@@ -1,0 +1,634 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sahih-al-bukhari:public-hadith-record:3",
+  "title": "Public Bukhari record with ordered local isnad and typed textual continuation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sourceUnitId",
+    "sourceOrdinal",
+    "bookSection",
+    "printedHadithNumber",
+    "kind",
+    "arabic",
+    "english",
+    "arabicSha256",
+    "humanReview",
+    "machineState",
+    "segments",
+    "isnad",
+    "uncertainties"
+  ],
+  "properties": {
+    "sourceUnitId": {
+      "type": "string",
+      "pattern": "^bukhari-l[0-9]{6}$"
+    },
+    "sourceOrdinal": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "bookSection": {
+      "type": "string",
+      "pattern": "^(opening|faith|source-division-[0-9]{3})$"
+    },
+    "printedHadithNumber": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "heading",
+        "chain",
+        "report",
+        "comment",
+        "poetry",
+        "entry"
+      ]
+    },
+    "arabic": {
+      "type": "string",
+      "minLength": 1
+    },
+    "english": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arabicSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "humanReview": {
+      "type": "string",
+      "enum": [
+        "unreviewed"
+      ]
+    },
+    "machineState": {
+      "type": "string",
+      "enum": [
+        "agent_complete"
+      ]
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/segment"
+      }
+    },
+    "isnad": {
+      "$ref": "#/$defs/isnad"
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/uncertainty"
+      }
+    },
+    "contextualIsnad": {
+      "$ref": "#/$defs/contextualIsnad"
+    }
+  },
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end",
+        "kind",
+        "arabic"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "isnad",
+            "matn",
+            "comment",
+            "heading",
+            "uncertain"
+          ]
+        },
+        "arabic": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "start",
+        "end",
+        "nameId",
+        "status",
+        "note",
+        "arabic"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "compiler",
+            "narrator",
+            "gap"
+          ]
+        },
+        "start": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nameId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "resolved",
+            "unresolved",
+            "implicit"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arabic": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from",
+        "to",
+        "start",
+        "end",
+        "mode",
+        "note",
+        "arabicWording"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "explicit",
+            "implicit",
+            "suspended",
+            "uncertain"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arabicWording": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "path": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "nodeIds",
+        "edgeIds",
+        "status",
+        "note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "parallel",
+            "embedded",
+            "commentary",
+            "heading"
+          ]
+        },
+        "nodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "edgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "uncertain"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "start",
+        "end",
+        "pathIds",
+        "status",
+        "note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pathIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "uncertain"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reportId",
+        "category",
+        "summary"
+      ],
+      "properties": {
+        "reportId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "translation",
+            "structure"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "isnad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nodes",
+        "edges",
+        "paths",
+        "reports",
+        "status",
+        "note"
+      ],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          }
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/path"
+          }
+        },
+        "reports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/report"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "uncertain"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reciprocalCommunications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "edgeIds",
+              "note"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "edgeIds": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "contextCue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "start",
+        "end",
+        "arabic"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "dual-speakers",
+            "attribution"
+          ],
+          "type": "string"
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "arabic": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "contextBranch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "antecedentNodeIds",
+        "antecedentEdgeIds",
+        "currentSourceNodeId",
+        "relation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "antecedentNodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2
+        },
+        "antecedentEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "currentSourceNodeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation": {
+          "const": "contextual-ascription",
+          "type": "string"
+        }
+      }
+    },
+    "contextualIsnad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "kind",
+        "currentArabicSha256",
+        "antecedentUnitId",
+        "antecedentArabicSha256",
+        "currentSourceNodeId",
+        "cues",
+        "branches",
+        "uncertainty"
+      ],
+      "properties": {
+        "version": {
+          "const": 1,
+          "type": "integer"
+        },
+        "kind": {
+          "const": "dual-source-continuation",
+          "type": "string"
+        },
+        "currentArabicSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "antecedentUnitId": {
+          "type": "string",
+          "pattern": "^bukhari-l[0-9]{6}$"
+        },
+        "antecedentArabicSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "currentSourceNodeId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/contextCue"
+          },
+          "minItems": 2
+        },
+        "branches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/contextBranch"
+          },
+          "minItems": 2
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
