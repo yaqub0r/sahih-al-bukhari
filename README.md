@@ -21,7 +21,11 @@ See [Bukhari adoption](docs/translation/bukhari-adoption.md),
 [agent workflow](docs/translation/agent-workflow.md). Preserve every substantive
 heading, chain, report and repetition. Translate directly from Arabic, then use
 fresh independent critique, adjudication, name reconciliation and final audit.
-English witnesses are disabled unless separately qualified.
+English witnesses remain disabled in existing profiles. For new private
+comparisons, follow the [owner decision on accepted permission uncertainty](docs/decisions/private-english-comparison-risk-acceptance.md):
+when a reasonable check finds no applicable explicit restriction, proceed on
+the recorded basis "permission unconfirmed; owner accepts risk." Source
+reliability and accuracy requirements still apply.
 
 Commercial use is the owner's intended use, with explicitly accepted residual
 rights uncertainty; it is not a representation that OpenITI granted commercial
