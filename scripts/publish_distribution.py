@@ -17,6 +17,7 @@ SUPPORTED_CONFIGS={
     DEFAULT_CONFIG: (),
     'release/distribution-v2.config.json': ('release/collection-source-admission.json','release/collection-projections.json'),
     'release/distribution-prefix-v1.config.json': ('release/prefix-source-admission-v1.json','release/prefix-projections-v1.json','release/collection-source-admission.json'),
+    'release/distribution-friday-v1.config.json': ('release/friday-source-admission-v1.json','release/friday-projections-v1.json','release/collection-source-admission.json','release/proposals/bukhari-through-prayer-working-2.json'),
 }
 
 
