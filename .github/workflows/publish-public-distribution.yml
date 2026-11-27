@@ -11,6 +11,7 @@ on:
           - release/distribution.config.json
           - release/distribution-v2.config.json
           - release/distribution-prefix-v1.config.json
+          - release/distribution-friday-v1.config.json
       repository_commit:
         description: Full reviewed main commit (40 lowercase hex characters)
         required: true
